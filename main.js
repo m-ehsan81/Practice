@@ -7,8 +7,6 @@ const emailMsg = document.querySelector(".email-msg");
 const passwordMsg = document.querySelector(".password-msg");
 const statusMsg = document.querySelector(".status");
 
-console.log(submitInput.id)
-
 submitInput.addEventListener("click", signIn);
 
 const userPattern = /^[\w\.-]+$/;
@@ -18,24 +16,29 @@ const passPattern = /^\S{8,}$/;
 function signIn(event) {
   event.preventDefault();
 
-  const usernameValue = userNameInput.value;
   const emailValue = emailInput.value;
   const passwordValue = passwordInput.value;
 
-  usernameMsg.innerText = "";
+  statusMsg.innerText="";
   emailMsg.innerText = "";
   passwordMsg.innerText = "";
 
-  const userValidation = userPattern.test(usernameValue);
   const emailValidation = emailPattern.test(emailValue);
   const passValidation = passPattern.test(passwordValue);
 
-  if (usernameValue.length === 0) {
-    usernameMsg.innerText = "Please enter  your username";
-    return;
-  } else if (!userValidation) {
-    usernameMsg.innerText = "Please enter a valid username";
-    return;
+  if (userNameInput) {
+    const usernameValue = userNameInput.value;
+    usernameMsg.innerText = "";
+
+    const userValidation = userPattern.test(usernameValue);
+
+    if (usernameValue.length === 0) {
+      usernameMsg.innerText = "Please enter  your username";
+      return;
+    } else if (!userValidation) {
+      usernameMsg.innerText = "Please enter a valid username";
+      return;
+    }
   }
 
   if (emailValue.length === 0) {
@@ -57,7 +60,7 @@ function signIn(event) {
   submitInput.disabled = true;
   setTimeout(() => {
     submitInput.disabled = false;
-    if ((submitInput.id === "signUp")) {
+    if (submitInput.id === "signUp") {
       statusMsg.innerText = "You signed up seccessfully";
     } else {
       statusMsg.innerText = "You login seccessfully";

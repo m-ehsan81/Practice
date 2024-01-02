@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>SignUp</title>
+    <link rel="stylesheet" href="./style.css" />
+    <script
+      src="https://kit.fontawesome.com/28525cd189.js"
+      crossorigin="anonymous"
+    ></script>
+  </head>
+  <body>
+    <div id="container">
+      <div class="logo"></div>
+      <h1 class="title">Sign up</h1>
+
+      <form>
+        <div class="username">
+          <i class="fa-solid fa-user"></i>
+          <input type="text" placeholder="username" class="user-input" />
+        </div>
+        <span class="username-msg"></span>
+
+        <div class="email">
+          <i class="fa-solid fa-envelope"></i>
+          <input type="email" placeholder="email" class="email-input" />
+        </div>
+        <span class="email-msg"></span>
+
+        <div class="password">
+          <i class="fa-solid fa-lock"></i>
+          <input type="password" placeholder="password" class="pass-input" />
+        </div>
+        <span class="password-msg"></span>
+
+        <input type="submit" class="submit-input" id="signUp" value="Sign up" />
+        <span class="status"></span>
+        
+        <a href="./login.html">
+          <span>Login</span>
+          <i class="fa-solid fa-arrow-right"></i>
+        </a>
+      </form>
+    </div>
+
+    <script src="./main.js"></script>
+  </body>
+</html>
