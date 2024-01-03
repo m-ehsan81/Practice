@@ -19,7 +19,7 @@ function signIn(event) {
   const emailValue = emailInput.value;
   const passwordValue = passwordInput.value;
 
-  statusMsg.innerText="";
+  statusMsg.innerText = "";
   emailMsg.innerText = "";
   passwordMsg.innerText = "";
 
@@ -65,7 +65,10 @@ function signIn(event) {
     } else {
       statusMsg.innerText = "You login seccessfully";
     }
-    userNameInput.value = "";
+
+    if (userNameInput) {
+      userNameInput.value = "";
+    }
     emailInput.value = "";
     passwordInput.value = "";
   }, 1000);
