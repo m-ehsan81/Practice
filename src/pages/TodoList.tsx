@@ -1,6 +1,10 @@
+import Lists from "../components/Lists"
+
 function TodoList() {
   return (
-    <div>TodoList</div>
+    <div>
+        <Lists />
+    </div>
   )
 }
 
