@@ -10,7 +10,7 @@ type TOdosProviderProps = {
   children: ReactNode;
 };
 
-type TodoType = {
+export type TodoType = {
   todoId: number;
   todoTitle: string;
   todoDescription: string;
