@@ -1,56 +1,34 @@
-import { useState } from "react";
-import { useTodoList } from "../context/TodosContext";
+import InputTodos from "./InputTodos";
+import { TodoListType, useTodoList } from "../context/TodosContext";
+import Todo from "./Todo";
 
-function List() {
-  const [listName, setListName] = useState<string>("");
-  const [isShown, setIsShown] = useState<boolean>(false);
+import { FaRegTrashAlt } from "react-icons/fa";
 
-  const { addList } = useTodoList();
+type ListProps = {
+  list: TodoListType;
+};
 
-  const clickHandler = () => {
-    addList(listName);
-    setIsShown(false);
-    setListName("");
+function List({ list }: ListProps) {
+  const { removeList } = useTodoList();
+
+  const deleteListHandler = () => {
+    removeList(list.listId);
   };
-
-  const showHandler = () => {
-    setIsShown(true);
-  };
-
-  const onBlurHandler = () => {
-    if (!listName) {
-      setIsShown(false);
-    }
-  };
-
-  if (!isShown) {
-    return (
-      <button
-        onClick={showHandler}
-        className="rounded-xl border-slate-400 border-2 border-dashed p-3 text-slate-400"
-      >
-        <span className="block text-3xl font-semibold">+</span>Click For Create
-        List
-      </button>
-    );
-  }
 
   return (
-    <div className="flex flex-col rounded-xl bg-slate-400 p-3 shadow-xl">
-      <input
-        type="text"
-        placeholder="listname..."
-        value={listName}
-        onChange={(e) => setListName(e.target.value)}
-        className="mb-3 p-3 bg-slate-600 focus:outline-none rounded-xl text-white"
-        onBlur={onBlurHandler}
-      />
-      <button
-        onClick={clickHandler}
-        className="border border-solid border-slate-700 bg-slate-400 rounded-3xl hover:bg-slate-600 transition-all p-2 text-white font-medium"
-      >
-        Add List
-      </button>
+    <div className="shadow-xl p-3 rounded-xl bg-slate-400">
+      <div className="text-slate-700 text-xl font-medium mb-3 border-b-2 pb-3 border-slate-700 border-solid flex justify-between items-center">
+        <span>{list.listName}</span>
+        <button onClick={deleteListHandler}>
+          <FaRegTrashAlt />
+        </button>
+      </div>
+      <div>
+        {list.todos.map((todo) => (
+          <Todo key={todo.todoId} todo={todo} listId={list.listId} />
+        ))}
+      </div>
+      <InputTodos listId={list.listId} />
     </div>
   );
 }
