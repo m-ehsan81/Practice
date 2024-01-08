@@ -6,16 +6,17 @@ import {
   useState,
 } from "react";
 import { setItemsToLocalStorage } from "../Helper/helper";
+import { v4 as uuidv4 } from "uuid";
 
 type TodoContextType = {
   todoList: TodoListType[];
   addList: (listName: string) => void;
-  removeList: (listId: number) => void;
-  addTodo: (listId: number, title: string, description: string) => void;
-  removeTodo: (listId: number, todoId: number) => void;
+  removeList: (listId: string) => void;
+  addTodo: (listId: string, title: string, description: string) => void;
+  removeTodo: (listId: string, todoId: string) => void;
   editTodo: (
-    listId: number,
-    todoId: number,
+    listId: string,
+    todoId: string,
     todoTitle: string,
     todoDescription: string
   ) => void;
@@ -26,13 +27,13 @@ type TOdosProviderProps = {
 };
 
 export type TodoType = {
-  todoId: number;
+  todoId: string;
   todoTitle: string;
   todoDescription: string;
 };
 
 export type TodoListType = {
-  listId: number;
+  listId: string;
   listName: string;
   todos: TodoType[];
 };
@@ -51,14 +52,14 @@ function TodosProvider({ children }: TOdosProviderProps) {
 
   function addList(listName: string) {
     setTodoList((lists) => {
-      const listId = lists.length + 1;
+      const listId = uuidv4();
       const newLists = [...lists, { listId, listName, todos: [] }];
       setItemsToLocalStorage("todos", newLists);
       return newLists;
     });
   }
 
-  function removeList(listId: number) {
+  function removeList(listId: string) {
     setTodoList((lists) => {
       const newLists = lists.filter((list) => list.listId !== listId);
       setItemsToLocalStorage("todos", newLists);
@@ -66,11 +67,11 @@ function TodosProvider({ children }: TOdosProviderProps) {
     });
   }
 
-  function addTodo(listId: number, title: string, description: string) {
+  function addTodo(listId: string, title: string, description: string) {
     setTodoList((lists) => {
       const list = lists.find((list) => list.listId === listId);
       if (list) {
-        const todoId = list?.todos.length + 1;
+        const todoId = uuidv4();
         list?.todos.push({
           todoId,
           todoTitle: title,
@@ -82,7 +83,7 @@ function TodosProvider({ children }: TOdosProviderProps) {
     });
   }
 
-  function removeTodo(listId: number, todoId: number) {
+  function removeTodo(listId: string, todoId: string) {
     setTodoList((lists) => {
       const list = lists.find((list) => list.listId === listId);
       if (list) {
@@ -94,8 +95,8 @@ function TodosProvider({ children }: TOdosProviderProps) {
   }
 
   function editTodo(
-    listId: number,
-    todoId: number,
+    listId: string,
+    todoId: string,
     todoTitle: string,
     todoDescription: string
   ) {

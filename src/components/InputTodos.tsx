@@ -2,32 +2,48 @@ import { FaCheck } from "react-icons/fa";
 import { useTodoList } from "../context/TodosContext";
 import { useState } from "react";
 
+import TextareaAutosize from "react-textarea-autosize";
+
+import { useForm, SubmitHandler } from "react-hook-form";
+
 type InputTodosProps = {
-  listId: number;
+  listId: string;
+};
+
+type Inputs = {
+  title: string;
+  description: string;
 };
 
 function InputTodos({ listId }: InputTodosProps) {
   const [isSHown, setIsShown] = useState<boolean>(false);
-  const [title, setTitle] = useState<string>("");
-  const [description, setDescription] = useState<string>("");
+
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+    reset,
+    // watch,
+  } = useForm<Inputs>();
 
   const { addTodo } = useTodoList();
-
-  const addTodoHandler = () => {
-    addTodo(listId, title, description);
-    setIsShown(false);
-    setTitle("");
-    setDescription("");
-  };
 
   const showHandler = () => {
     setIsShown(true);
   };
 
-  const onBlurHandler = () => {
-    if (!(title || description)) {
-      setIsShown(false);
-    }
+  // const onBlurHandler = () => {
+  //   console.log(watch("title"), watch("description"));
+  //   if (!(watch("title") || watch("description"))) {
+  //     setIsShown(false);
+  //   }
+  // };
+
+  const onSubmit: SubmitHandler<Inputs> = (data) => {
+    console.log(data);
+    addTodo(listId, data.title, data.description);
+    setIsShown(false);
+    reset();
   };
 
   if (!isSHown) {
@@ -42,27 +58,38 @@ function InputTodos({ listId }: InputTodosProps) {
   }
 
   return (
-    <div className="card">
-      <input
-        type="text"
-        value={title}
+    <form onSubmit={handleSubmit(onSubmit)} className="card">
+      <TextareaAutosize
         placeholder="title"
         className="todoInput"
-        onChange={(e) => setTitle(e.target.value)}
-        onBlur={onBlurHandler}
+        autoFocus
+        {...register("title", { required: true, maxLength: 150 })}
+        // onBlur={onBlurHandler}
       />
-      <input
-        type="text"
-        value={description}
+      {errors.title?.type === "required" && (
+        <p role="alert" className="error">title is required</p>
+      )}
+      {errors.title?.type === "maxLength" && (
+        <p role="alert" className="error">title is longer</p>
+      )}
+
+      <TextareaAutosize
         placeholder="description"
         className="todoInput"
-        onChange={(e) => setDescription(e.target.value)}
-        onBlur={onBlurHandler}
+        {...register("description", { maxLength: 300 })}
+        // onBlur={onBlurHandler}
       />
-      <button onClick={addTodoHandler} className="w-fit mx-auto text-white">
+      {errors.description?.type === "maxLength" && (
+        <p role="alert" className="error">description is longer</p>
+      )}
+
+      <button
+        type="submit"
+        className="w-fit mx-auto text-white"
+      >
         <FaCheck />
       </button>
-    </div>
+    </form>
   );
 }
 

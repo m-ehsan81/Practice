@@ -16,7 +16,7 @@ function List({ list }: ListProps) {
   };
 
   return (
-    <div className="shadow-xl p-3 rounded-xl bg-slate-400">
+    <div className="shadow-xl p-3 rounded-xl bg-slate-400 min-w-80 max-w-80 overflow-y-auto h-max max-h-[80vh] mr-5">
       <div className="text-slate-700 text-xl font-medium mb-3 border-b-2 pb-3 border-slate-700 border-solid flex justify-between items-center">
         <span>{list.listName}</span>
         <button onClick={deleteListHandler}>
