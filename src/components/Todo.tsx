@@ -9,6 +9,7 @@ import { FaXmark } from "react-icons/fa6";
 import TextareaAutosize from "react-textarea-autosize";
 
 import { useForm, SubmitHandler } from "react-hook-form";
+import { Modal } from "./modal";
 
 type TodoProps = {
   todo: TodoType;
@@ -22,7 +23,7 @@ type Inputs = {
 
 function Todo({ todo, listId }: TodoProps) {
   const [isEditTodo, setIsEditTodo] = useState<boolean>(false);
-  console.log(todo);
+  const [showModal, setShowModal] = useState(false);
 
   const {
     register,
@@ -95,7 +96,11 @@ function Todo({ todo, listId }: TodoProps) {
             <MdOutlineEdit />
           </button>
           <button
-            onClick={deleteHandler}
+            // onClick={deleteHandler}
+            onClick={() => {
+              setShowModal(true);
+              setIsEditTodo(false);
+            }}
             className="transition ease-in-out hover:-translate-y-1"
           >
             <FaRegTrashAlt />
@@ -110,6 +115,14 @@ function Todo({ todo, listId }: TodoProps) {
       key={todo.todoId}
       className="card text-white mb-4 flex flex-row justify-between items-center"
     >
+      {showModal && (
+        <Modal>
+          <p>محل گرفتن confirm</p>
+          <button onClick={deleteHandler}>اره</button>
+          <button onClick={() => setShowModal(false)}>نه</button>
+        </Modal>
+      )}
+
       <div className="truncate">
         <p className="text-lg font-medium truncate">{todo.todoTitle}</p>
         <p className="text-xs font-extralight italic text-slate-300 truncate">
