@@ -1,8 +1,16 @@
-import { Container, ModalWrapper } from "./style";
+import { ReactNode } from "react";
+import { Container } from "./style";
+import { Modal as ModalWrapper } from "@mui/material";
 
-export const Modal = ({ children }: { children: any }) => {
+type ModalPropsType = {
+  children: ReactNode;
+  isOpen: boolean;
+  closeHandler : Function;
+};
+
+export const Modal = ({ children, isOpen, closeHandler }: ModalPropsType) => {
   return (
-    <ModalWrapper>
+    <ModalWrapper open={isOpen} onClose={() => closeHandler(false)}>
       <Container>{children}</Container>
     </ModalWrapper>
   );

@@ -6,10 +6,12 @@ import { MdOutlineEdit } from "react-icons/md";
 import { FaRegTrashAlt } from "react-icons/fa";
 import { FaXmark } from "react-icons/fa6";
 
-import TextareaAutosize from "react-textarea-autosize";
+import { TextareaAutosize } from "@mui/material";
 
 import { useForm, SubmitHandler } from "react-hook-form";
 import { Modal } from "./modal";
+import { Box } from "@mui/material";
+import { BoxButton, CancelButton, OkButton } from "./modalButtons";
 
 type TodoProps = {
   todo: TodoType;
@@ -115,13 +117,21 @@ function Todo({ todo, listId }: TodoProps) {
       key={todo.todoId}
       className="card text-white mb-4 flex flex-row justify-between items-center"
     >
-      {showModal && (
-        <Modal>
-          <p>محل گرفتن confirm</p>
-          <button onClick={deleteHandler}>اره</button>
-          <button onClick={() => setShowModal(false)}>نه</button>
-        </Modal>
-      )}
+      <Modal isOpen={showModal} closeHandler={setShowModal}>
+        <Box
+          sx={{ fontWeight: "medium", fontSize: 14, color: "#334155", m: 1 }}
+        >
+          Are you sure you want to delete todo?
+        </Box>
+        <BoxButton>
+          <CancelButton variant="outlined" onClick={() => setShowModal(false)}>
+            Cancel
+          </CancelButton>
+          <OkButton variant="contained" onClick={deleteHandler}>
+            Delete
+          </OkButton>
+        </BoxButton>
+      </Modal>
 
       <div className="truncate">
         <p className="text-lg font-medium truncate">{todo.todoTitle}</p>

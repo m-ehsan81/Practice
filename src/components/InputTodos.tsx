@@ -2,9 +2,11 @@ import { FaCheck } from "react-icons/fa";
 import { useTodoList } from "../context/TodosContext";
 import { useState } from "react";
 
-import TextareaAutosize from "react-textarea-autosize";
+// import TextareaAutosize from "react-textarea-autosize";
+import { TextareaAutosize } from "@mui/base/TextareaAutosize";
 
 import { useForm, SubmitHandler } from "react-hook-form";
+import { FaXmark } from "react-icons/fa6";
 
 type InputTodosProps = {
   listId: string;
@@ -58,7 +60,10 @@ function InputTodos({ listId }: InputTodosProps) {
   }
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)} className="card">
+    <form
+      onSubmit={handleSubmit(onSubmit)}
+      className="card items-center justify-center"
+    >
       <TextareaAutosize
         placeholder="title"
         className="todoInput"
@@ -67,10 +72,14 @@ function InputTodos({ listId }: InputTodosProps) {
         // onBlur={onBlurHandler}
       />
       {errors.title?.type === "required" && (
-        <p role="alert" className="error">title is required</p>
+        <p role="alert" className="error w-full">
+          title is required
+        </p>
       )}
       {errors.title?.type === "maxLength" && (
-        <p role="alert" className="error">title is longer</p>
+        <p role="alert" className="error w-full">
+          title is longer
+        </p>
       )}
 
       <TextareaAutosize
@@ -80,15 +89,29 @@ function InputTodos({ listId }: InputTodosProps) {
         // onBlur={onBlurHandler}
       />
       {errors.description?.type === "maxLength" && (
-        <p role="alert" className="error">description is longer</p>
+        <p role="alert" className="error">
+          description is longer
+        </p>
       )}
 
-      <button
-        type="submit"
-        className="w-fit mx-auto text-white"
-      >
-        <FaCheck />
-      </button>
+      <div className="text-white w-40 flex justify-between items-center">
+        <button
+          className="transition ease-in-out hover:-translate-y-1"
+          onClick={() => {
+            setIsShown(false);
+            reset();
+          }}
+        >
+          <FaXmark />
+        </button>
+
+        <button
+          type="submit"
+          className="transition ease-in-out hover:-translate-y-1"
+        >
+          <FaCheck />
+        </button>
+      </div>
     </form>
   );
 }
