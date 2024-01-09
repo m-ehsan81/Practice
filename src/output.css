@@ -645,8 +645,16 @@ body {
   margin-left: 0.5rem;
 }
 
+.ml-3 {
+  margin-left: 0.75rem;
+}
+
 .mr-5 {
   margin-right: 1.25rem;
+}
+
+.mt-1 {
+  margin-top: 0.25rem;
 }
 
 .mt-2 {
@@ -655,6 +663,14 @@ body {
 
 .mt-3 {
   margin-top: 0.75rem;
+}
+
+.mt-9 {
+  margin-top: 2.25rem;
+}
+
+.mt-8 {
+  margin-top: 2rem;
 }
 
 .block {
@@ -688,11 +704,6 @@ body {
 
 .w-40 {
   width: 10rem;
-}
-
-.w-fit {
-  width: -moz-fit-content;
-  width: fit-content;
 }
 
 .w-full {
@@ -731,10 +742,6 @@ body {
   justify-content: space-between;
 }
 
-.justify-around {
-  justify-content: space-around;
-}
-
 .overflow-x-auto {
   overflow-x: auto;
 }
@@ -751,10 +758,6 @@ body {
 
 .rounded-xl {
   border-radius: 0.75rem;
-}
-
-.border {
-  border-width: 1px;
 }
 
 .border-2 {
@@ -809,6 +812,11 @@ body {
 
 .p-8 {
   padding: 2rem;
+}
+
+.px-8 {
+  padding-left: 2rem;
+  padding-right: 2rem;
 }
 
 .pb-3 {
