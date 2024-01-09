@@ -56,12 +56,12 @@ function InputList() {
         {...register("listName", { required: true, maxLength: 20 })}
       />
       {errors.listName?.type === "required" && (
-        <p role="alert" className="error text-red-700">
+        <p role="alert" className="error w-full text-red-700">
           listname is required
         </p>
       )}
       {errors.listName?.type === "maxLength" && (
-        <p role="alert" className="error text-red-700">
+        <p role="alert" className="error w-full text-red-700">
           listname is longer
         </p>
       )}
