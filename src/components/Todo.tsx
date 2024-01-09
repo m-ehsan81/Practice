@@ -1,6 +1,6 @@
 import { TbListDetails } from "react-icons/tb";
 import { TodoType, useTodoList } from "../context/TodosContext";
-import { useState } from "react";
+import { useCallback, useState } from "react";
 
 import { MdOutlineEdit } from "react-icons/md";
 import { FaRegTrashAlt } from "react-icons/fa";
@@ -37,15 +37,25 @@ function Todo({ todo, listId }: TodoProps) {
 
   const { removeTodo, editTodo } = useTodoList();
 
-  const isEditHandler = () => {
+  // const isEditHandler = () => {
+  //   setIsEditTodo((isEditTodo) => !isEditTodo);
+  //   setValue("title", todo.todoTitle);
+  //   setValue("description", todo.todoDescription);
+  // };
+
+  const isEditHandler = useCallback(() => {
     setIsEditTodo((isEditTodo) => !isEditTodo);
     setValue("title", todo.todoTitle);
     setValue("description", todo.todoDescription);
-  };
+  }, [todo, listId]);
 
-  const deleteHandler = () => {
+  // const deleteHandler = () => {
+  //   removeTodo(listId, todo.todoId);
+  // };
+
+  const deleteHandler = useCallback(() => {
     removeTodo(listId, todo.todoId);
-  };
+  }, [listId, todo.todoId]);
 
   const onSubmit: SubmitHandler<Inputs> = (data) => {
     editTodo(listId, todo.todoId, data.title, data.description);

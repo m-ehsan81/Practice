@@ -1,6 +1,7 @@
 import {
   ReactNode,
   createContext,
+  useCallback,
   useContext,
   useEffect,
   useState,
@@ -50,70 +51,85 @@ function TodosProvider({ children }: TOdosProviderProps) {
     }
   }, []);
 
-  function addList(listName: string) {
-    setTodoList((lists) => {
-      const listId = uuidv4();
-      const newLists = [...lists, { listId, listName, todos: [] }];
-      setItemsToLocalStorage("todos", newLists);
-      return newLists;
-    });
-  }
+  const addList = useCallback(
+    (listName: string) => {
+      setTodoList((lists) => {
+        const listId = uuidv4();
+        const newLists = [...lists, { listId, listName, todos: [] }];
+        setItemsToLocalStorage("todos", newLists);
+        return newLists;
+      });
+    },
+    [todoList]
+  );
 
-  function removeList(listId: string) {
-    setTodoList((lists) => {
-      const newLists = lists.filter((list) => list.listId !== listId);
-      setItemsToLocalStorage("todos", newLists);
-      return newLists;
-    });
-  }
+  const removeList = useCallback(
+    (listId: string) => {
+      setTodoList((lists) => {
+        const newLists = lists.filter((list) => list.listId !== listId);
+        setItemsToLocalStorage("todos", newLists);
+        return newLists;
+      });
+    },
+    [todoList]
+  );
 
-  function addTodo(listId: string, title: string, description: string) {
-    setTodoList((lists) => {
-      const list = lists.find((list) => list.listId === listId);
-      if (list) {
-        const todoId = uuidv4();
-        list?.todos.push({
-          todoId,
-          todoTitle: title,
-          todoDescription: description,
-        });
-      }
-      setItemsToLocalStorage("todos", [...lists]);
-      return [...lists];
-    });
-  }
+  const addTodo = useCallback(
+    (listId: string, title: string, description: string) => {
+      setTodoList((lists) => {
+        const list = lists.find((list) => list.listId === listId);
+        if (list) {
+          const todoId = uuidv4();
+          list?.todos.push({
+            todoId,
+            todoTitle: title,
+            todoDescription: description,
+          });
+        }
+        setItemsToLocalStorage("todos", [...lists]);
+        return [...lists];
+      });
+    },
+    [todoList]
+  );
 
-  function removeTodo(listId: string, todoId: string) {
-    setTodoList((lists) => {
-      const list = lists.find((list) => list.listId === listId);
-      if (list) {
-        list.todos = list?.todos.filter((todo) => todo.todoId !== todoId);
-      }
-      setItemsToLocalStorage("todos", [...lists]);
-      return [...lists];
-    });
-  }
+  const removeTodo = useCallback(
+    (listId: string, todoId: string) => {
+      setTodoList((lists) => {
+        const list = lists.find((list) => list.listId === listId);
+        if (list) {
+          list.todos = list?.todos.filter((todo) => todo.todoId !== todoId);
+        }
+        setItemsToLocalStorage("todos", [...lists]);
+        return [...lists];
+      });
+    },
+    [todoList]
+  );
 
-  function editTodo(
-    listId: string,
-    todoId: string,
-    todoTitle: string,
-    todoDescription: string
-  ) {
-    setTodoList((lists) => {
-      const todo = lists
-        .find((list) => list.listId === listId)
-        ?.todos.find((todo) => todo.todoId == todoId);
+  const editTodo = useCallback(
+    (
+      listId: string,
+      todoId: string,
+      todoTitle: string,
+      todoDescription: string
+    ) => {
+      setTodoList((lists) => {
+        const todo = lists
+          .find((list) => list.listId === listId)
+          ?.todos.find((todo) => todo.todoId == todoId);
 
-      if (todo) {
-        todo.todoTitle = todoTitle;
-        todo.todoDescription = todoDescription;
-      }
+        if (todo) {
+          todo.todoTitle = todoTitle;
+          todo.todoDescription = todoDescription;
+        }
 
-      setItemsToLocalStorage("todos", [...lists]);
-      return [...lists];
-    });
-  }
+        setItemsToLocalStorage("todos", [...lists]);
+        return [...lists];
+      });
+    },
+    [todoList]
+  );
 
   return (
     <TodoContext.Provider
